@@ -13,14 +13,14 @@ const Main = (props) => {
       <Route path='/profile'
              render={() => <Profile
                profilePage={props.state.profilePage}
-               addPost={props.addPost}
-               removePost={props.removePost}
-               updateNewPostText={props.updateNewPostText}/>}/>
+               addPost={props.store.addPost}
+               removePost={props.store.removePost}
+               updateNewPostText={props.store.updateNewPostText}/>}/>
       <Route path='/dialogs'
              render={() => <Dialogs
                dialogsPage={props.state.dialogsPage}
-               addMessage={props.addMessage}
-               updateNewMessageText={props.updateNewMessageText}/>}/>
+               addMessage={props.store.addMessage}
+               updateNewMessageText={props.store.updateNewMessageText}/>}/>
       <Route path='/music'
              render={() => <Music/>}/>
       <Route path='/news'

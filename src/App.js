@@ -13,11 +13,7 @@ const App = (props) => {
         <Aside sidebar={props.state.sidebar}/>
         <Main
           state={props.state}
-          addPost={props.addPost}
-          removePost={props.removePost}
-          addMessage={props.addMessage}
-          updateNewPostText={props.updateNewPostText}
-          updateNewMessageText={props.updateNewMessageText}/>
+          store={props.store}/>
       </div>
     </BrowserRouter>
   );
