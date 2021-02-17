@@ -1,6 +1,6 @@
 import React from 'react';
 import reportWebVitals from './reportWebVitals';
-import state, {removePost, subscribe, addMessage, addPost, updateNewMessageText, updateNewPostText} from './redux/state';
+import store, {removePost, subscribe, addMessage, addPost, updateNewMessageText, updateNewPostText} from './redux/store';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
