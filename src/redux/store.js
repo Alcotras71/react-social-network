@@ -53,11 +53,11 @@ let store = {
     }
     this._state.profilePage.posts.push(newPost);
     this._state.profilePage.newPostText = '';
-    this._subscriber();
+    this._subscriber(this._state);
   },
   removePost() {
     this._state.profilePage.posts.pop();
-    this._subscriber();
+    this._subscriber(this._state);
   },
   addMessage() {
     let newMessage = {
@@ -66,16 +66,23 @@ let store = {
     }
     this._state.dialogsPage.messages.push(newMessage);
     this._state.dialogsPage.newMessageText = '';
-    this._subscriber();
+    this._subscriber(this._state);
   },
   updateNewPostText(newText) {
     this._state.profilePage.newPostText = newText;
-    this._subscriber();
+    this._subscriber(this._state);
   },
   updateNewMessageText(newText) {
     this._state.dialogsPage.newMessageText = newText;
-    this._subscriber();
+    this._subscriber(this._state);
   },
 }
 
+for (let key in store) {
+  if (typeof store[key] == 'function') {
+    store[key] = store[key].bind(store);
+  }
+}
+
 export default store;
+window.store = store;
