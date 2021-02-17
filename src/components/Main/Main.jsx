@@ -7,7 +7,6 @@ import Music from "./Music/Music";
 import News from "./News/News";
 import Settings from "./Settings/Settings";
 
-
 const Main = (props) => {
   return (
     <main className={s.main}>
