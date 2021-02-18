@@ -1,8 +1,9 @@
 const ADD_POST = 'ADD-POST';
 const REMOVE_POST = 'REMOVE-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const ADD_MESSAGE = 'ADD-MESSAGE';
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
+const SEND_MESSAGE = 'SEND-MESSAGE';
+const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY'
+
 let store = {
   _state: {
     profilePage: {
@@ -31,7 +32,7 @@ let store = {
         {id: 5, message: 'clap, clap'},
         {id: 6, message: 'What is your web'},
       ],
-      newMessageText: 'so cool day'
+      newMessageBody: ""
     },
     sidebar: {
       friends: [
@@ -53,9 +54,10 @@ let store = {
 
   dispatch(action) { // { type: 'ADD-POST' }
     if (action.type === ADD_POST) {
+      let text = this._state.profilePage.newPostText;
       let newPost = {
         id: 5,
-        message: this._state.profilePage.newPostText,
+        message: text,
         likeCount: 0
       }
       this._state.profilePage.posts.push(newPost);
@@ -67,16 +69,17 @@ let store = {
     } else if (action.type === UPDATE_NEW_POST_TEXT) {
       this._state.profilePage.newPostText = action.newText;
       this._subscriber(this._state);
-    } else if (action.type === ADD_MESSAGE) {
+    } else if (action.type === SEND_MESSAGE) {
+      let body =  this._state.dialogsPage.newMessageBody;
       let newMessage = {
         id: 7,
-        message: this._state.dialogsPage.newMessageText
+        message: body
       }
       this._state.dialogsPage.messages.push(newMessage);
-      this._state.dialogsPage.newMessageText = '';
+      this._state.dialogsPage.newMessageBody = '';
       this._subscriber(this._state);
-    } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
-      this._state.dialogsPage.newMessageText = action.newText;
+      } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
+      this._state.dialogsPage.newMessageBody = action.body;
       this._subscriber(this._state);
     }
   },
@@ -98,15 +101,15 @@ export const updateNewPostTextActionCreator = (text) => {
     newText: text
   }
 }
-export const addMessageActionCreator = () => {
+export const sendMessageCreator = () => {
   return {
-    type: ADD_MESSAGE
+    type: SEND_MESSAGE
   }
 }
-export const updateNewMessageTextActionCreator = (text) => {
+export const updateNewMessageBodyCreator = (body) => {
   return {
-    type: UPDATE_NEW_MESSAGE_TEXT,
-    newText: text
+    type: UPDATE_NEW_MESSAGE_BODY,
+    body: body
   }
 }
 
