@@ -26,7 +26,7 @@ let store = {
         {id: 5, message: 'clap, clap'},
         {id: 6, message: 'What is your web'},
       ],
-      newMessageText: ''
+      newMessageText: 'so cool day'
     },
     sidebar: {
       friends: [
@@ -45,36 +45,35 @@ let store = {
   subscribe(observer) {
     this._subscriber = observer;
   },
-  addPost() {
-    let newPost = {
-      id: 5,
-      message: this._state.profilePage.newPostText,
-      likeCount: 0
+
+  dispatch(action) { // { type: 'ADD-POST' }
+    if (action.type === 'ADD-POST') {
+      let newPost = {
+        id: 5,
+        message: this._state.profilePage.newPostText,
+        likeCount: 0
+      }
+      this._state.profilePage.posts.push(newPost);
+      this._state.profilePage.newPostText = '';
+      this._subscriber(this._state);
+    } else if (action.type === 'REMOVE-POST') {
+      this._state.profilePage.posts.pop();
+      this._subscriber(this._state);
+    } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+      this._state.profilePage.newPostText = action.newText;
+      this._subscriber(this._state);
+    } else if (action.type === 'ADD-MESSAGE') {
+      let newMessage = {
+        id: 7,
+        message: this._state.dialogsPage.newMessageText
+      }
+      this._state.dialogsPage.messages.push(newMessage);
+      this._state.dialogsPage.newMessageText = '';
+      this._subscriber(this._state);
+    } else if (action.type === 'UPDATE-NEW-MESSAGE-TEXT') {
+      this._state.dialogsPage.newMessageText = action.newText;
+      this._subscriber(this._state);
     }
-    this._state.profilePage.posts.push(newPost);
-    this._state.profilePage.newPostText = '';
-    this._subscriber(this._state);
-  },
-  removePost() {
-    this._state.profilePage.posts.pop();
-    this._subscriber(this._state);
-  },
-  addMessage() {
-    let newMessage = {
-      id: 7,
-      message: this._state.dialogsPage.newMessageText
-    }
-    this._state.dialogsPage.messages.push(newMessage);
-    this._state.dialogsPage.newMessageText = '';
-    this._subscriber(this._state);
-  },
-  updateNewPostText(newText) {
-    this._state.profilePage.newPostText = newText;
-    this._subscriber(this._state);
-  },
-  updateNewMessageText(newText) {
-    this._state.dialogsPage.newMessageText = newText;
-    this._subscriber(this._state);
   },
 }
 

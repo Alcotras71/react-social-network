@@ -4,21 +4,24 @@ import Post from './Post/Post';
 
 const MyPosts = (props) => {
   let postsElements =
-    props.posts.map(p => (<Post key={p.id} message={p.message} likeCount={p.likeCount}/>))
+    props.profilePage.posts.map(p => (<Post key={p.id} message={p.message} likeCount={p.likeCount}/>))
 
   let newPostElement = React.createRef();
 
   let addPost = () => {
-    props.addPost();
+    // props.addPost();
+    props.dispatch({ type: 'ADD-POST' });
   }
 
   let removePost = () => {
-    props.removePost();
+    // props.removePost();
+    props.dispatch({ type: 'REMOVE-POST' });
   }
 
   let onPostChange = () => {
     let text = newPostElement.current.value;
-    props.updateNewPostText(text);
+    // props.updateNewPostText(text);
+    props.dispatch({ type: 'UPDATE-NEW-POST-TEXT', newText: text });
   }
 
   return (
@@ -28,7 +31,7 @@ const MyPosts = (props) => {
         <div>
           <textarea onChange={ onPostChange }
                     ref={newPostElement}
-                    value={props.newPostText} />
+                    value={props.profilePage.newPostText} />
         </div>
         <div>
           <button onClick={ addPost }>Add post
