@@ -1,32 +1,22 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
-import {
-  addPostActionCreator,
-  removePostActionCreator,
-  updateNewPostTextActionCreator
-} from "../../../../redux/profileReducer";
 
 const MyPosts = (props) => {
   let postsElements =
-    props.profilePage.posts.map(p => (<Post key={p.id} message={p.message} likeCount={p.likeCount}/>))
+    props.posts.map(p => (<Post key={p.id} message={p.message} likeCount={p.likeCount}/>))
 
-  let newPostElement = React.createRef();
-
-  let addPost = () => {
-    // props.addPost();
-    props.dispatch(addPostActionCreator());
+  let onAddPost = () => {
+    props.addPost();
   }
 
-  let removePost = () => {
-    // props.removePost();
-    props.dispatch(removePostActionCreator());
+  let onRemovePost = () => {
+    props.removePost();
   }
 
-  let onPostChange = () => {
-    let text = newPostElement.current.value;
-    // props.updateNewPostText(text);
-    props.dispatch(updateNewPostTextActionCreator(text));
+  let onPostChange = (e) => {
+    let text = e.target.value;
+    props.updateNewPostText(text);
   }
 
   return (
@@ -35,15 +25,14 @@ const MyPosts = (props) => {
       <div>
         <div>
           <textarea onChange={onPostChange}
-                    ref={newPostElement}
-                    value={props.profilePage.newPostText}/>
+                    value={props.newPostText}/>
         </div>
         <div>
-          <button onClick={addPost}>Add post
+          <button onClick={onAddPost}>Add post
           </button>
         </div>
         <div>
-          <button onClick={removePost}>Remove</button>
+          <button onClick={onRemovePost}>Remove</button>
         </div>
       </div>
       <div className={s.posts}>

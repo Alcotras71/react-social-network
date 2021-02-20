@@ -12,7 +12,7 @@ const App = (props) => {
         <Header/>
         <Aside sidebar={props.state.sidebar}/>
         <Main
-          state={props.state}
+          store={props.store}
           dispatch={props.dispatch}/>
       </div>
     </BrowserRouter>
