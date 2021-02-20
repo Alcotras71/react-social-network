@@ -1,24 +1,25 @@
-const SEND_MESSAGE = 'SEND-MESSAGE';
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
+const SEND_MESSAGE = "SEND-MESSAGE",
+  DELETE_MESSAGE = "DELETE-MESSAGE",
+  UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY";
 
 let initialState = {
   dialogs: [
-    {id: 1, name: 'Andrey'},
-    {id: 2, name: 'Dmitru'},
-    {id: 3, name: 'Saha'},
-    {id: 4, name: 'Rombol'},
-    {id: 5, name: 'Kulik'},
-    {id: 6, name: 'Sora'},
+    { id: 1, name: "Andrey" },
+    { id: 2, name: "Dmitru" },
+    { id: 3, name: "Saha" },
+    { id: 4, name: "Rombol" },
+    { id: 5, name: "Kulik" },
+    { id: 6, name: "Sora" },
   ],
   messages: [
-    {id: 1, message: 'Hello'},
-    {id: 2, message: 'Hi'},
-    {id: 3, message: 'Yo'},
-    {id: 4, message: 'SO coool!'},
-    {id: 5, message: 'clap, clap'},
-    {id: 6, message: 'What is your web'},
+    { id: 1, message: "Hello" },
+    { id: 2, message: "Hi" },
+    { id: 3, message: "Yo" },
+    { id: 4, message: "SO coool!" },
+    { id: 5, message: "clap, clap" },
+    { id: 6, message: "What is your web" },
   ],
-  newMessageBody: ""
+  newMessageBody: "",
 };
 
 const dialogsReducer = (state = initialState, action) => {
@@ -27,10 +28,13 @@ const dialogsReducer = (state = initialState, action) => {
       let body = state.newMessageBody;
       let newMessage = {
         id: 7,
-        message: body
-      }
+        message: body,
+      };
       state.messages.push(newMessage);
-      state.newMessageBody = '';
+      state.newMessageBody = "";
+      return state;
+    case DELETE_MESSAGE:
+			state.messages.pop();
       return state;
     case UPDATE_NEW_MESSAGE_BODY:
       state.newMessageBody = action.body;
@@ -38,18 +42,23 @@ const dialogsReducer = (state = initialState, action) => {
     default:
       return state;
   }
-}
+};
 
 export const sendMessageCreator = () => {
   return {
-    type: SEND_MESSAGE
-  }
-}
+    type: SEND_MESSAGE,
+  };
+};
+export const deleteMessageCreator = () => {
+  return {
+    type: DELETE_MESSAGE,
+  };
+};
 export const updateNewMessageBodyCreator = (body) => {
   return {
     type: UPDATE_NEW_MESSAGE_BODY,
-    body: body
-  }
-}
+    body: body,
+  };
+};
 
 export default dialogsReducer;

@@ -18,6 +18,18 @@
     color: darkorange;
 }
 
+.dialogs__inputs{
+}
+
+.dialogs__inputs button{
+	display: block;
+	background: rgb(19, 168, 148);
+	width: 100px;
+	height: 30px;
+	color: white;
+	border-radius: 10px;
+}
+
 .messages {
     padding: 10px;
 }

@@ -13,12 +13,16 @@ const Dialogs = (props) => {
   // let newMessageElem = React.createRef();
   let onSendMessage = () => {
     props.sendMessage();
-  }
+	}
+
+	let onDeleteMessage = () => {
+		props.deleteMessage();
+	}
 
   let onMessageChange = (e) => {
     let body = e.target.value;
     props.updateNewMessageText(body);
-  }
+	}
 
   return (
     <div className={s.dialogs}>
@@ -27,13 +31,14 @@ const Dialogs = (props) => {
       </div>
       <div className={s.messages}>
         <div>{messagesElements}</div>
-        <div>
-          <textarea
+        <div className={s.dialogs__inputs}>
+          <div><textarea
             placeholder='Enter your message'
             onChange={onMessageChange}
             // ref={newMessageElem}
-            value={newMessageBody}/>
+            value={newMessageBody}/></div>
           <button onClick={onSendMessage}>Send</button>
+					<button onClick={onDeleteMessage}>Delete</button>
         </div>
       </div>
     </div>
