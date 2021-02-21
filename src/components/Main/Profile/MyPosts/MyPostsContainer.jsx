@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(removePostActionCreator());
     },
     updateNewPostText(text) {
-      updateNewPostTextActionCreator(text);
+      dispatch(updateNewPostTextActionCreator(text));
     }
   }
 }
