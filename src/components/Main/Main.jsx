@@ -12,11 +12,9 @@ const Main = (props) => {
   return (
     <main className={s.main}>
       <Route path='/profile'
-             render={() => <Profile
-               store={props.store}/>}/>
+             render={() => <Profile/>}/>
       <Route path='/dialogs'
-             render={() => <DialogsContainer
-               store={props.store}/>}/>
+             render={() => <DialogsContainer/>}/>
       <Route path='/music'
              render={() => <Music/>}/>
       <Route path='/news'

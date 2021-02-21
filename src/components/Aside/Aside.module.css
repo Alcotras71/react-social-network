@@ -1,6 +1,7 @@
 .aside {
 	grid-area: aside;
 	background: darkseagreen;
+	height: 100%;
 }
 
 .nav {
