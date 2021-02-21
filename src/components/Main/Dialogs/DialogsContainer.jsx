@@ -5,27 +5,27 @@ import StoreContext from "../../../StoreContext";
 
 const DialogsContainer = (props) => {
   return (
-    <StoreContext.Consumer> {
+    <StoreContext.Consumer>{
       (store) => {
-        let state = props.store.getState();
+        let state = store.getState();
+
         let sendMessage = () => {
-          props.store.dispatch(sendMessageCreator());
+          store.dispatch(sendMessageCreator());
         }
         let deleteMessage = () => {
-          props.store.dispatch(deleteMessageCreator());
+          store.dispatch(deleteMessageCreator());
         }
         let messageChange = (body) => {
-          props.store.dispatch(updateNewMessageBodyCreator(body))
+          store.dispatch(updateNewMessageBodyCreator(body))
         }
-        return(
-          <Dialogs
+
+        return (<Dialogs
             sendMessage={sendMessage} deleteMessage={deleteMessage}
             updateNewMessageText={messageChange}
             dialogsPage={state.dialogsPage}/>
         )
       }
-    }
-    </StoreContext.Consumer>
+    }</StoreContext.Consumer>
   );
 }
 
