@@ -2,13 +2,12 @@ import React from 'react';
 import s from './Main.module.css';
 import {Route} from "react-router-dom";
 import Profile from './Profile/Profile';
-import Dialogs from "./Dialogs/Dialogs";
 import Music from "./Music/Music";
 import News from "./News/News";
 import Settings from "./Settings/Settings";
 import DialogsContainer from "./Dialogs/DialogsContainer";
 
-const Main = (props) => {
+const Main = () => {
   return (
     <main className={s.main}>
       <Route path='/profile'

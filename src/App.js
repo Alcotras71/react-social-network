@@ -10,7 +10,7 @@ const App = (props) => {
     <BrowserRouter>
       <div className="app-wrapper">
         <Header/>
-        <Aside/>
+        <Aside sidebar={props.sidebar}/>
         <Main/>
       </div>
     </BrowserRouter>

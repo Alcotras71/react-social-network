@@ -4,23 +4,23 @@ import store from './redux/redux-store';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import StoreContext from "./StoreContext";
+import Provider from "react-redux/lib/components/Provider";
 
-let rerenderEntireTree = (state) => {
+let rerenderEntireTree = () => {
   ReactDOM.render(
     <React.StrictMode>
-      <StoreContext.Provider value={store}>
-        <App/>
-      </StoreContext.Provider>
+      <Provider store={store}>
+        <App sidebar={store.getState().sidebar}/>
+      </Provider>
     </React.StrictMode>,
     document.getElementById('root')
   );
 };
 
-rerenderEntireTree(store.getState());
+rerenderEntireTree();
 
 store.subscribe(() => {
-  rerenderEntireTree(store.getState());
+  rerenderEntireTree();
 });
 
 // If you want to start measuring performance in your app, pass a function
