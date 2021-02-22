@@ -21,7 +21,11 @@ const Navigation = () => {
         <li>
           <NavLink to="/settings" activeClassName={s.active}>Settings</NavLink>
         </li>
+        <li>
+          <NavLink to="/users" activeClassName={s.active}>Users</NavLink>
+        </li>
       </ul>
+
     </>
   )
 }

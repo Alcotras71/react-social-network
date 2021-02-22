@@ -29,7 +29,7 @@ const profileReducer = (state = initialState, action) => {
       return stateCopy;
     }
     case UPDATE_NEW_POST_TEXT:
-      return  {
+      return {
         ...state,
         newPostText: action.newText
       }
@@ -38,21 +38,9 @@ const profileReducer = (state = initialState, action) => {
   }
 }
 
-export const addPostActionCreator = () => {
-  return {
-    type: ADD_POST
-  }
-}
-export const removePostActionCreator = () => {
-  return {
-    type: REMOVE_POST
-  }
-}
-export const updateNewPostTextActionCreator = (text) => {
-  return {
-    type: UPDATE_NEW_POST_TEXT,
-    newText: text
-  }
-}
+export const addPostActionCreator = () => ({type: ADD_POST});
+export const removePostActionCreator = () => ({type: REMOVE_POST});
+export const updateNewPostTextActionCreator = (text) =>
+  ({type: UPDATE_NEW_POST_TEXT, newText: text});
 
 export default profileReducer;
