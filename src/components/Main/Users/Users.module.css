@@ -1,34 +1,60 @@
-.content{
-    background: #f0b20a;
+.content {
+  background: #f0b20a;
+  padding: 20px;
 }
-.image img{
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+.image img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
-.image button{
-    width: 100px;
-    height: 30px;
-    border-radius: 10px;
-    background: #9862bf;
-    color: white;
-    text-transform: uppercase;
-}
-
-.card{
-    display: flex;
+.image button {
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  background: #9862bf;
+  color: white;
+  text-transform: uppercase;
 }
 
-.description{
-    display: flex;
-    border: 2px solid #1ec9b8;
-    width: 60%;
-    margin: 20px 20px 40px 50px;
-    justify-content: space-between;
-    padding: 10px 10px 10px 10px;
-    border-radius: 10px;
+.card {
+  display: flex;
 }
 
-.image{
-    margin: 20px;
+.description {
+  display: flex;
+  border: 2px solid #1ec9b8;
+  width: 60%;
+  margin: 20px 20px 40px 50px;
+  justify-content: space-between;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+}
+
+.image {
+  margin: 20px;
+}
+
+.pagination {
+  overflow: hidden;
+  padding: 10px;
+}
+
+.pagination span {
+  padding: 10px;
+  margin-left: 2px;
+  margin-right: 2px;
+  background: #000;
+  color: #fff;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.pagination span:hover {
+  background: #fff;
+  color: #000;
+}
+
+.pagination span.selectedPage {
+  background: #fff;
+  color: #000;
 }
