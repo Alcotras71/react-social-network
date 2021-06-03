@@ -1,10 +1,22 @@
-
 .header {
-	grid-area: header;
-	background: aqua;
+  grid-area: header;
+  background: aqua;
 }
 
-.header img{
-	width: 100px;
-	height: 100%;
+.header img {
+  width: 100px;
+  height: 100%;
+}
+
+.loginBlock {
+  float: right;
+}
+
+.loginBlock a {
+  color: #000;
+  transition: all 0.5s ease;
+}
+
+.loginBlock a:hover {
+  color: #fff;
 }
