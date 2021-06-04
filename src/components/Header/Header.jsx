@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import s from './Header.module.css';
+import photo from '../../assets/images/fake.png';
 
 const Header = (props) => {
   return (
@@ -11,8 +12,8 @@ const Header = (props) => {
       />
       <div className={s.loginBlock}>
         {props.isAuth ? (
-          <div>
-            <img src={props.photo} alt="mysefl" />
+          <div className={s.header__success}>
+            <img src={props.photo ? props.photo : photo} alt="mysefl" />
             <h1>{props.login}</h1>
           </div>
         ) : (

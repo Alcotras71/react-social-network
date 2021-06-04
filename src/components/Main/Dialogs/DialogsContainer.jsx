@@ -1,11 +1,12 @@
-import React from "react";
 import {
   sendMessage,
   updateNewMessageBody,
   deleteMessage,
-} from "../../../redux/dialogsReducer";
-import Dialogs from "./Dialogs";
-import connect from "react-redux/lib/connect/connect";
+} from '../../../redux/dialogsReducer';
+import Dialogs from './Dialogs';
+import connect from 'react-redux/lib/connect/connect';
+import { WithAuthRedirect } from '../../../hoc/WithAuthRedirect';
+import { compose } from 'redux';
 
 const mapStateToProps = (state) => {
   return {
@@ -13,10 +14,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-const DialogsContainer = connect(mapStateToProps, {
-  sendMessage: sendMessage,
-  deleteMessage: deleteMessage,
-  updateNewMessageBody: updateNewMessageBody,
-})(Dialogs);
-
-export default DialogsContainer;
+export default compose(
+  connect(mapStateToProps, {
+    sendMessage,
+    deleteMessage,
+    updateNewMessageBody,
+  }),
+  WithAuthRedirect
+)(Dialogs);

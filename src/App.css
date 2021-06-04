@@ -21,7 +21,7 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: inherit;}
 	grid-template-areas:
 	"header header"
 	"aside main";
-	grid-template-rows: 60px 1fr;
+	grid-template-rows: 100px 1fr;
 	grid-template-columns: 2fr 10fr;
 	font-size: 30px;
 	width: 1400px;

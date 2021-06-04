@@ -4,7 +4,7 @@ const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.0/',
   withCredentials: true,
   headers: {
-    'API-KEY': '140cb0a2-b5cf-47ba-a5b1-fce8b9357d2a',
+    'API-KEY': 'fc7ab22e-0755-480d-81fb-2d383c072a4d',
   },
 });
 
@@ -17,8 +17,16 @@ export const usersAPI = {
 };
 
 export const profileAPI = {
-  getProfile(userId = 2) {
+  getProfile(userId) {
     return instance.get(`profile/${userId}`).then((response) => response.data);
+  },
+  getStatus(userId) {
+    return instance.get(`profile/status/${userId}`).then((response) => response.data);
+  },
+  updateStatus(status) {
+    return instance
+      .put(`profile/status`, { status: status })
+      .then((response) => response.data);
   },
 };
 
@@ -26,24 +34,20 @@ export const followAPI = {
   follow: 'follow',
 
   deleteFollow(userId) {
-    return instance.delete(`${this.follow}/${userId}`).then((response) => {
-      if (response.data.resultCode === 0) {
-        return response.data;
-      }
-    });
+    return instance
+      .delete(`${this.follow}/${userId}`)
+      .then((response) => response.data);
   },
 
   postFollow(userId) {
-    return instance.post(`${this.follow}/${userId}`).then((response) => {
-      if (response.data.resultCode === 0) {
-        return response.data;
-      }
-    });
+    return instance
+      .post(`${this.follow}/${userId}`)
+      .then((response) => response.data);
   },
 };
 
 export const authAPI = {
-  getAuth() {
+  getAuthMe() {
     return instance.get(`auth/me`).then((response) => response.data);
   },
 };

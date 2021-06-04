@@ -1,7 +1,8 @@
-import React from "react";
-import s from "./Dialogs.module.css";
-import DialogItem from "./DialogItem/DialogItem";
-import Message from "./Message/Message";
+import React from 'react';
+import s from './Dialogs.module.css';
+import DialogItem from './DialogItem/DialogItem';
+import Message from './Message/Message';
+import { Redirect } from 'react-router-dom';
 
 const Dialogs = (props) => {
   let state = props.dialogsPage;
@@ -10,7 +11,6 @@ const Dialogs = (props) => {
     <DialogItem key={d.id} name={d.name} id={d.id} />
   ));
 
-  debugger;
   let messagesElements = state.messages.map((m) => (
     <Message key={m.id} message={m.message} />
   ));

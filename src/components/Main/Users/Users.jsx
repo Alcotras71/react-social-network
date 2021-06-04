@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { followAPI } from '../../../api/api';
@@ -49,14 +48,7 @@ let Users = (props) => {
                     disabled={props.followingInProgress.some(
                       (id) => id === u.id
                     )}
-                    onClick={() => {
-                      props.toggleFollowingProgress(true, u.id);
-
-                      followAPI.deleteFollow(u.id).then((data) => {
-                        props.unfollow(u.id);
-                        props.toggleFollowingProgress(false, u.id);
-                      });
-                    }}
+                    onClick={() => props.unfollow(u.id)}
                   >
                     Unfollow
                   </button>
@@ -65,14 +57,7 @@ let Users = (props) => {
                     disabled={props.followingInProgress.some(
                       (id) => id === u.id
                     )}
-                    onClick={() => {
-                      props.toggleFollowingProgress(true, u.id);
-
-                      followAPI.postFollow(u.id).then((data) => {
-                        props.follow(u.id);
-                        props.toggleFollowingProgress(false, u.id);
-                      });
-                    }}
+                    onClick={() => props.follow(u.id)}
                   >
                     Follow
                   </button>
