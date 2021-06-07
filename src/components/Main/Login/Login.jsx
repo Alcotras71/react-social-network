@@ -1,45 +1,74 @@
 import React from 'react';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
+import { Input } from '../../common/FormsControls/FormsControls';
+import { defaultValidator } from '../../../utils/validators/validators';
+import connect from 'react-redux/lib/connect/connect';
+import { login, logout } from '../../../redux/authReducer';
+import { Redirect } from 'react-router-dom';
+import s from '../../common/FormsControls/FormsControls.module.css';
+
+const Login = (props) => {
+  const onSubmit = (values, actions) => {
+    props.login(values.email, values.password, values.rememberMe, actions);
+  };
+
+  if (props.isAuth) {
+    return <Redirect to={'/profile'} />;
+  }
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <LoginForm onSubmit={onSubmit} />
+    </div>
+  );
+};
 
 const LoginForm = (props) => {
   return (
     <Formik
       initialValues={{
-        login: '',
+        email: '',
         password: '',
-        remember: false,
+        rememberMe: false,
       }}
-      onSubmit={async (values) => {
-        console.log(values);
-      }}
+      onSubmit={props.onSubmit}
     >
-      <Form>
-        <div>
-          <Field type={'text'} placeholder={'Login'} name="login" />
-        </div>
-        <div>
-          <Field type={'password'} placeholder={'Password'} name="password" />
-        </div>
-        <div>
-          <label>
-            <Field type={'checkbox'} name="remember" /> Remember me
-          </label>
-        </div>
-        <div>
-          <button>Login</button>
-        </div>
-      </Form>
+      {({ status }) => (
+        <Form>
+          <div>
+            <Input
+              type={'text'}
+              placeholder={'Email'}
+              name="email"
+              validate={defaultValidator(true)}
+            />
+          </div>
+          <div>
+            <Input
+              type={'password'}
+              placeholder={'Password'}
+              name="password"
+              validate={defaultValidator(true)}
+            />
+          </div>
+          <div>
+            <label>
+              <Input type={'checkbox'} name="rememberMe" /> Remember me
+            </label>
+          </div>
+          {status && <div className={s.formSummaryError}>{status}</div>}
+          <div>
+            <button type="submit">Login</button>
+          </div>
+        </Form>
+      )}
     </Formik>
   );
 };
 
-const Login = (props) => {
-  return (
-    <div>
-      <h1>Login</h1>
-      <LoginForm />
-    </div>
-  );
-};
+const mapStateToProps = (state) => ({
+  isAuth: state.auth.isAuth,
+});
 
-export default Login;
+export default connect(mapStateToProps, { login, logout })(Login);

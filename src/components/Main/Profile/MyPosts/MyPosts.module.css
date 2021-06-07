@@ -10,3 +10,12 @@ h3{
 .posts{
     margin-top: 10px;
 }
+
+.button {
+  display: block;
+  padding: 5px 10px;
+  background-color: rgb(172, 13, 13);
+  color: #fff;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}

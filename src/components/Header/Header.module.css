@@ -39,3 +39,18 @@
   width: auto;
   border-radius: 50%;
 }
+
+.header__btn {
+  font-size: 20px;
+  padding: 10px 20px;
+  background: #000;
+  color: #fff;
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: all 0.5s ease;
+}
+
+.header__btn:hover {
+  background: #fff;
+  color: #000;
+}

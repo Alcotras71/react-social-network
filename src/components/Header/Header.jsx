@@ -14,10 +14,17 @@ const Header = (props) => {
         {props.isAuth ? (
           <div className={s.header__success}>
             <img src={props.photo ? props.photo : photo} alt="mysefl" />
-            <h1>{props.login}</h1>
+            <div>
+              <h1>{props.login}</h1>
+              <button className={s.header__btn} onClick={props.logout}>
+                Logout
+              </button>
+            </div>
           </div>
         ) : (
-          <NavLink to={'/login'}>Login</NavLink>
+          <NavLink to={'/login'}>
+            {<button className={s.header__btn}>Login</button>}
+          </NavLink>
         )}
       </div>
     </header>

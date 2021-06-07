@@ -18,8 +18,7 @@ const authReducer = (state = initialState, action) => {
     case SET_USER_DATA:
       return {
         ...state,
-        ...action.data,
-        isAuth: true,
+        ...action.payload,
       };
 
     case SET_USER_PHOTO:
@@ -44,31 +43,50 @@ export const setUserPhoto = (photo) => ({
   type: SET_USER_PHOTO,
   photo,
 });
-export const setUserData = (userId, email, login) => ({
-  type: SET_USER_DATA,
-  data: { userId, email, login },
-});
 export const toggleIsFetching = (isFetching) => ({
   type: TOGGLE_IS_FETCHING,
   isFetching,
 });
 
-export const getAuthUserData = () => {
-  return (dispatch) => {
-    dispatch(toggleIsFetching(true));
+export const setAuthUserData = (userId, email, login, isAuth) => ({
+  type: SET_USER_DATA,
+  payload: { userId, email, login, isAuth },
+});
 
-    authAPI.getAuthMe().then((data) => {
-      dispatch(toggleIsFetching(false));
-      if (data.resultCode === 0) {
-        const { id, login, email } = data.data;
-        dispatch(setUserData(id, email, login));
+export const getAuthUserData = () => (dispatch) => {
+  dispatch(toggleIsFetching(true));
 
-        profileAPI.getProfile(id).then((data) => {
-          dispatch(setUserPhoto(data.photos.small));
-        });
-      }
-    });
-  };
+  return authAPI.getAuthMe().then((data) => {
+    dispatch(toggleIsFetching(false));
+    if (data.resultCode === 0) {
+      const { id, login, email } = data.data;
+      dispatch(setAuthUserData(id, email, login, true));
+
+      profileAPI.getProfile(id).then((data) => {
+        dispatch(setUserPhoto(data.photos.small));
+      });
+    }
+  });
+};
+
+export const login = (email, password, rememberMe, actions) => (dispatch) => {
+  authAPI.login(email, password, rememberMe).then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(getAuthUserData());
+    } else {
+      const message =
+        data.messages.length > 0 ? data.messages[0] : 'Some error';
+      actions.setStatus(message);
+    }
+  });
+};
+
+export const logout = () => (dispatch) => {
+  authAPI.logout().then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(setAuthUserData(null, null, null, false));
+    }
+  });
 };
 
 export default authReducer;

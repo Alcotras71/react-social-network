@@ -2,7 +2,10 @@ import React from 'react';
 import s from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
+import { Form, Formik } from 'formik';
 import { Redirect } from 'react-router-dom';
+import { Textarea } from '../../common/FormsControls/FormsControls';
+import { defaultValidator } from '../../../utils/validators/validators';
 
 const Dialogs = (props) => {
   let state = props.dialogsPage;
@@ -14,41 +17,53 @@ const Dialogs = (props) => {
   let messagesElements = state.messages.map((m) => (
     <Message key={m.id} message={m.message} />
   ));
-  let newMessageBody = state.newMessageBody;
 
-  // let newMessageElem = React.createRef();
-  const onSendMessage = () => {
-    props.sendMessage();
+  const addNewMessage = (values) => {
+    props.sendMessage(values.messageText);
   };
 
-  const onDeleteMessage = () => {
+  const deleteMessage = () => {
     props.deleteMessage();
   };
 
-  const onMessageChange = (e) => {
-    let body = e.target.value;
-    props.updateNewMessageBody(body);
-  };
+  if (!props.isAuth) return <Redirect to={'/login'} />;
 
   return (
     <div className={s.dialogs}>
       <div className={s.dialogs__items}>{dialogsElements}</div>
       <div className={s.messages}>
         <div>{messagesElements}</div>
-        <div className={s.dialogs__inputs}>
-          <div>
-            <textarea
-              placeholder="Enter your message"
-              onChange={onMessageChange}
-              // ref={newMessageElem}
-              value={newMessageBody}
-            />
-          </div>
-          <button onClick={onSendMessage}>Send</button>
-          <button onClick={onDeleteMessage}>Delete</button>
-        </div>
+        <AddMessageForm
+          onSubmit={addNewMessage}
+          deleteMessage={deleteMessage}
+        />
       </div>
     </div>
+  );
+};
+
+const AddMessageForm = (props) => {
+  return (
+    <Formik
+      initialValues={{
+        messageText: '',
+      }}
+      onSubmit={props.onSubmit}
+    >
+      <Form className={s.dialogs__inputs}>
+        <div>
+          <Textarea
+            placeholder="Enter your message"
+            name="messageText"
+            validate={defaultValidator(true, 50)}
+          />
+        </div>
+        <button type={'submit'}>Send</button>
+        <button type={'button'} onClick={props.deleteMessage}>
+          Delete
+        </button>
+      </Form>
+    </Formik>
   );
 };
 

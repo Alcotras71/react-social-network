@@ -2,7 +2,6 @@ import { profileAPI } from '../api/api';
 
 const ADD_POST = 'ADD-POST';
 const REMOVE_POST = 'REMOVE-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
@@ -13,20 +12,16 @@ let initialState = {
     { id: 3, message: 'No, i dont want it', likeCount: '1' },
     { id: 4, message: 'Yo , Claire', likeCount: '5' },
   ],
-  newPostText: 'No fish, no meat',
   profile: null,
 };
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST:
+      const commentsText = action.commentsText;
       return {
         ...state,
-        newPostText: '',
-        posts: [
-          ...state.posts,
-          { id: 5, message: state.newPostText, likeCount: 0 },
-        ],
+        posts: [...state.posts, { id: 5, message: commentsText, likeCount: 0 }],
       };
 
     case REMOVE_POST: {
@@ -37,12 +32,6 @@ const profileReducer = (state = initialState, action) => {
       stateCopy.posts.pop();
       return stateCopy;
     }
-
-    case UPDATE_NEW_POST_TEXT:
-      return {
-        ...state,
-        newPostText: action.newText,
-      };
 
     case SET_USER_PROFILE:
       return {
@@ -61,12 +50,9 @@ const profileReducer = (state = initialState, action) => {
   }
 };
 
-export const addPost = () => ({ type: ADD_POST });
+export const addPost = (commentsText) => ({ type: ADD_POST, commentsText });
 export const removePost = () => ({ type: REMOVE_POST });
-export const updateNewPostText = (newText) => ({
-  type: UPDATE_NEW_POST_TEXT,
-  newText,
-});
+
 export const setUserProfile = (profile) => ({
   type: SET_USER_PROFILE,
   profile,
