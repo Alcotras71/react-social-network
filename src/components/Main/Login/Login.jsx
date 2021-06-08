@@ -7,12 +7,12 @@ import { login, logout } from '../../../redux/authReducer';
 import { Redirect } from 'react-router-dom';
 import s from '../../common/FormsControls/FormsControls.module.css';
 
-const Login = (props) => {
+const Login = ({ login, isAuth }) => {
   const onSubmit = (values, actions) => {
-    props.login(values.email, values.password, values.rememberMe, actions);
+    login(values.email, values.password, values.rememberMe, actions);
   };
 
-  if (props.isAuth) {
+  if (isAuth) {
     return <Redirect to={'/profile'} />;
   }
 
@@ -24,7 +24,7 @@ const Login = (props) => {
   );
 };
 
-const LoginForm = (props) => {
+const LoginForm = ({ onSubmit }) => {
   return (
     <Formik
       initialValues={{
@@ -32,7 +32,7 @@ const LoginForm = (props) => {
         password: '',
         rememberMe: false,
       }}
-      onSubmit={props.onSubmit}
+      onSubmit={onSubmit}
     >
       {({ status }) => (
         <Form>
@@ -52,11 +52,9 @@ const LoginForm = (props) => {
               validate={defaultValidator(true)}
             />
           </div>
-          <div>
-            <label>
-              <Input type={'checkbox'} name="rememberMe" /> Remember me
-            </label>
-          </div>
+          <label>
+            <Input type={'checkbox'} name="rememberMe" /> Remember me
+          </label>
           {status && <div className={s.formSummaryError}>{status}</div>}
           <div>
             <button type="submit">Login</button>

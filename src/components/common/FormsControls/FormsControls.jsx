@@ -2,12 +2,12 @@ import React from 'react';
 import s from './FormsControls.module.css';
 import { useField } from 'formik';
 
-const FormControl = (props) => {
-  const hasError = props.meta.touched && props.meta.error;
+const FormControl = ({meta: {touched, error}, children, ...props}) => {
+  const hasError = touched && error;
   return (
     <div className={`${s.formControl} ${hasError ? s.error : ''}`}>
-      {props.children}
-      {hasError ? <span>{props.meta.error}</span> : null}
+      {children}
+      {hasError ? <span>{error}</span> : null}
     </div>
   );
 };

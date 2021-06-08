@@ -5,11 +5,7 @@ import { Form, Formik } from 'formik';
 import { defaultValidator } from '../../../../utils/validators/validators';
 import { Textarea } from '../../../common/FormsControls/FormsControls';
 
-const MyPosts = (props) => {
-  const postsElements = props.posts.map((p) => (
-    <Post key={p.id} message={p.message} likeCount={p.likeCount} />
-  ));
-
+const MyPosts = React.memo((props) => {
   const addPost = (values) => {
     props.addPost(values.commentsText);
   };
@@ -17,6 +13,12 @@ const MyPosts = (props) => {
   const deletePost = () => {
     props.removePost();
   };
+
+  const postsElements = [...props.posts]
+    .reverse()
+    .map((p) => (
+      <Post key={p.id} message={p.message} likeCount={p.likeCount} />
+    ));
 
   return (
     <div className={s.postsBlock}>
@@ -27,7 +29,7 @@ const MyPosts = (props) => {
       <div className={s.posts}>{postsElements}</div>
     </div>
   );
-};
+});
 
 const MyPostsForm = (props) => {
   return (
