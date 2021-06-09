@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Formik } from 'formik';
-import { Input } from '../../common/FormsControls/FormsControls';
+import { createField } from '../../common/FormsControls/FormsControls';
 import { defaultValidator } from '../../../utils/validators/validators';
 import connect from 'react-redux/lib/connect/connect';
 import { login, logout } from '../../../redux/authReducer';
@@ -36,27 +36,11 @@ const LoginForm = ({ onSubmit }) => {
     >
       {({ status }) => (
         <Form>
-          <div>
-            <Input
-              type={'text'}
-              placeholder={'Email'}
-              name="email"
-              validate={defaultValidator(true)}
-            />
-          </div>
-          <div>
-            <Input
-              type={'password'}
-              placeholder={'Password'}
-              name="password"
-              validate={defaultValidator(true)}
-            />
-          </div>
-          <label>
-            <Input type={'checkbox'} name="rememberMe" /> Remember me
-          </label>
+          {createField( 'input', false, 'email', 'Email', 'email', defaultValidator(true) )}
+          {createField( 'input', false, 'password', 'Password', 'password', defaultValidator(true) )}
+          {createField( 'input', true, 'checkbox', '', 'rememberMe', '', 'Remember me' )}
           {status && <div className={s.formSummaryError}>{status}</div>}
-          <div>
+          <div className={s.form__btn}>
             <button type="submit">Login</button>
           </div>
         </Form>

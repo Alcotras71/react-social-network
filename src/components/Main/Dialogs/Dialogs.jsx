@@ -4,7 +4,7 @@ import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import { Form, Formik } from 'formik';
 import { Redirect } from 'react-router-dom';
-import { Textarea } from '../../common/FormsControls/FormsControls';
+import { Textarea,createField } from '../../common/FormsControls/FormsControls';
 import { defaultValidator } from '../../../utils/validators/validators';
 
 const Dialogs = (props) => {
@@ -51,13 +51,7 @@ const AddMessageForm = (props) => {
       onSubmit={props.onSubmit}
     >
       <Form className={s.dialogs__inputs}>
-        <div>
-          <Textarea
-            placeholder="Enter your message"
-            name="messageText"
-            validate={defaultValidator(true, 50)}
-          />
-        </div>
+        {createField( 'textarea', false, '', 'Enter your message', 'messageText', defaultValidator(true, 50))}
         <button type={'submit'}>Send</button>
         <button type={'button'} onClick={props.deleteMessage}>
           Delete

@@ -30,3 +30,21 @@
   font-size: 25px;
   color: red;
 }
+
+.form__btn {
+  margin-top: 10px;
+}
+
+.form__btn button {
+  background-color: rgb(248, 86, 10);
+  color: #fff;
+  padding: 5px 20px;
+  border-radius: 5px;
+  font-size: 20px;
+  transition: all 0.5s ease;
+}
+
+.form__btn button:hover {
+  background-color: #fff;
+  color: rgb(248, 86, 10);
+}

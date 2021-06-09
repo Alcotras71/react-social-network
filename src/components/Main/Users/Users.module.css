@@ -34,27 +34,3 @@
   margin: 20px;
 }
 
-.pagination {
-  overflow: hidden;
-  padding: 10px;
-}
-
-.pagination span {
-  padding: 10px;
-  margin-left: 2px;
-  margin-right: 2px;
-  background: #000;
-  color: #fff;
-  transition: all 0.5s ease;
-  cursor: pointer;
-}
-
-.pagination span:hover {
-  background: #fff;
-  color: #000;
-}
-
-.pagination span.selectedPage {
-  background: #fff;
-  color: #000;
-}

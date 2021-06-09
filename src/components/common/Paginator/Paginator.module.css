@@ -1,0 +1,45 @@
+.pagination {
+  overflow: hidden;
+  padding: 10px;
+}
+
+.pagination span {
+  padding: 10px;
+  margin-left: 2px;
+  margin-right: 2px;
+  background: #000;
+  color: #fff;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.pagination span:hover {
+  background: #fff;
+  color: #000;
+}
+
+.pagination span.selectedPage {
+  background: #fff;
+  color: #000;
+}
+
+.pagination__button {
+  padding: 5px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 10px;
+  background: rgb(39, 206, 236);
+  transition: all 0.5s ease;
+  margin: 0 5px;
+}
+
+.pagination__button:hover {
+  background: rgb(20, 35, 165);
+  color: #fff;
+}
+
+.pagination__buttonWrapper {
+  display: flex;
+  width: 200px;
+  justify-content: center;
+}

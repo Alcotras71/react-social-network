@@ -6,6 +6,9 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import connect from 'react-redux/lib/connect/connect';
 import { initializeApp } from './redux/appReducer';
 import Preloader from './components/common/Preloader/Preloader';
+import Provider from 'react-redux/lib/components/Provider';
+import { BrowserRouter } from 'react-router-dom';
+import store from './redux/redux-store';
 
 class App extends React.Component {
   componentDidMount() {
@@ -19,7 +22,7 @@ class App extends React.Component {
       return (
         <div className="app-wrapper">
           <HeaderContainer />
-          <Aside sidebar={this.props.sidebar} />
+          <Aside sidebar={store.getState().sidebar} />
           <Main />
         </div>
       );
@@ -31,4 +34,15 @@ const mapStateToProps = (state) => ({
   initialized: state.app.initialized,
 });
 
-export default connect(mapStateToProps, { initializeApp })(App);
+const AppContainer = connect(mapStateToProps, { initializeApp })(App);
+
+const JsApp = (props) => {
+  return (
+    <BrowserRouter>
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    </BrowserRouter>
+  );
+};
+export default JsApp;

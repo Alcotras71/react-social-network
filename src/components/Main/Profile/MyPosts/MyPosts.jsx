@@ -3,7 +3,7 @@ import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import { Form, Formik } from 'formik';
 import { defaultValidator } from '../../../../utils/validators/validators';
-import { Textarea } from '../../../common/FormsControls/FormsControls';
+import { createField } from '../../../common/FormsControls/FormsControls';
 
 const MyPosts = React.memo((props) => {
   const addPost = (values) => {
@@ -40,13 +40,7 @@ const MyPostsForm = (props) => {
       onSubmit={props.onSubmit}
     >
       <Form>
-        <div>
-          <Textarea
-            placeholder="Enter your message"
-            name="commentsText"
-            validate={defaultValidator(true, 10)}
-          />
-        </div>
+        {createField( 'textarea', false, '', 'Enter your message', 'commentsText', defaultValidator(true, 10))}
         <div>
           <button className={s.button} type="submit">
             Add post

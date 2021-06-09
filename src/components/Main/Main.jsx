@@ -1,24 +1,26 @@
 import React from 'react';
 import s from './Main.module.css';
 import { Route } from 'react-router-dom';
-import ProfileContainer from './Profile/ProfileContainer';
-import Music from './Music/Music';
-import News from './News/News';
-import Settings from './Settings/Settings';
-import DialogsContainer from './Dialogs/DialogsContainer';
+import { WithSuspense } from '../../hoc/WithSuspense';
 import UsersContainer from './Users/UsersContainer';
-import LoginPage from './Login/Login';
+
+const DialogsContainer = React.lazy(() => import('./Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy(() => import('./Profile/ProfileContainer'));
+const LoginPage = React.lazy(() => import('./Login/Login'));
+const Music = React.lazy(() => import('./Music/Music'));
+const News = React.lazy(() => import('./News/News'));
+const Settings = React.lazy(() => import('./Settings/Settings'));
 
 const Main = () => {
   return (
     <main className={s.main}>
-      <Route path="/profile/:userId?" render={() => <ProfileContainer />} />
-      <Route path="/dialogs" render={() => <DialogsContainer />} />
-      <Route path="/music" render={() => <Music />} />
-      <Route path="/news" render={() => <News />} />
-      <Route path="/settings" render={() => <Settings />} />
+      <Route path="/profile/:userId?" render={WithSuspense(ProfileContainer)} />
+      <Route path="/dialogs" render={WithSuspense(DialogsContainer)} />
+      <Route path="/music" render={WithSuspense(Music)} />
+      <Route path="/news" render={WithSuspense(News)} />
+      <Route path="/settings" render={WithSuspense(Settings)} />
       <Route path="/users" render={() => <UsersContainer />} />
-      <Route path="/login" render={() => <LoginPage />}></Route>
+      <Route path="/login" render={WithSuspense(LoginPage)} />
     </main>
   );
 };
