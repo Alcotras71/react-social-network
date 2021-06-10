@@ -7,9 +7,9 @@ import { login, logout } from '../../../redux/authReducer';
 import { Redirect } from 'react-router-dom';
 import s from '../../common/FormsControls/FormsControls.module.css';
 
-const Login = ({ login, isAuth }) => {
+const Login = ({ login, isAuth, captchaUrl }) => {
   const onSubmit = (values, actions) => {
-    login(values.email, values.password, values.rememberMe, actions);
+    login(values.email, values.password, values.rememberMe, values.captcha, actions);
   };
 
   if (isAuth) {
@@ -19,18 +19,19 @@ const Login = ({ login, isAuth }) => {
   return (
     <div>
       <h1>Login</h1>
-      <LoginForm onSubmit={onSubmit} />
+      <LoginForm captchaUrl={captchaUrl} onSubmit={onSubmit} />
     </div>
   );
 };
 
-const LoginForm = ({ onSubmit }) => {
+const LoginForm = ({ onSubmit, captchaUrl }) => {
   return (
     <Formik
       initialValues={{
         email: '',
         password: '',
         rememberMe: false,
+        captcha: ''
       }}
       onSubmit={onSubmit}
     >
@@ -39,6 +40,12 @@ const LoginForm = ({ onSubmit }) => {
           {createField( 'input', false, 'email', 'Email', 'email', defaultValidator(true) )}
           {createField( 'input', false, 'password', 'Password', 'password', defaultValidator(true) )}
           {createField( 'input', true, 'checkbox', '', 'rememberMe', '', 'Remember me' )}
+
+          <div>
+            {captchaUrl && <img src={captchaUrl} alt='captcha'/>}
+            {captchaUrl && createField('input', 'false', 'text', 'Symbols from image', 'captcha', defaultValidator(true), )}
+          </div>
+
           {status && <div className={s.formSummaryError}>{status}</div>}
           <div className={s.form__btn}>
             <button type="submit">Login</button>
@@ -50,6 +57,7 @@ const LoginForm = ({ onSubmit }) => {
 };
 
 const mapStateToProps = (state) => ({
+  captchaUrl: state.auth.captchaUrl,
   isAuth: state.auth.isAuth,
 });
 

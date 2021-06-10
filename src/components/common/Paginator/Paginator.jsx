@@ -19,7 +19,7 @@ const Paginator = ({
   const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
   const rightPortionPageNumber = portionNumber * portionSize;
   return (
-    <div style={{ display: 'flex', justifyContent:'space-between' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <div className={style.pagination__buttonWrapper}>
         {portionNumber >= 10 && (
           <button

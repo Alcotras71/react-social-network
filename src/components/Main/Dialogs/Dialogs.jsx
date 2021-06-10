@@ -4,7 +4,7 @@ import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import { Form, Formik } from 'formik';
 import { Redirect } from 'react-router-dom';
-import { Textarea,createField } from '../../common/FormsControls/FormsControls';
+import { createField } from '../../common/FormsControls/FormsControls';
 import { defaultValidator } from '../../../utils/validators/validators';
 
 const Dialogs = (props) => {

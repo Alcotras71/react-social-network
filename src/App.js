@@ -11,8 +11,21 @@ import { BrowserRouter } from 'react-router-dom';
 import store from './redux/redux-store';
 
 class App extends React.Component {
+  catchAllUnhandleErrors = (reason, promise) => {
+    alert('Some error');
+    console.error(promise);
+  };
+
   componentDidMount() {
     this.props.initializeApp();
+    window.addEventListener('unhandledrejection', this.catchAllUnhandleErrors);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      'unhandledrejection',
+      this.catchAllUnhandleErrors
+    );
   }
 
   render() {

@@ -1,6 +1,7 @@
-import { authAPI, profileAPI } from '../api/api';
+import { authAPI, profileAPI, securityAPI } from '../api/api';
 
 const SET_USER_DATA = 'network/auth/SET_USER_DATA';
+const GET_CAPTCHA_URL_SUCCESS = 'network/auth/GET_CAPTCHA_URL_SUCCESS';
 const SET_USER_PHOTO = 'network/auth/SET_USER_PHOTO';
 const TOGGLE_IS_FETCHING = 'network/auth/TOGGLE_IS_FETCHING';
 
@@ -11,11 +12,13 @@ const initialState = {
   photo: null,
   isFetching: false,
   isAuth: false,
+  captchaUrl: null, // if null, then captcha is not required
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_DATA:
+    case GET_CAPTCHA_URL_SUCCESS:
       return {
         ...state,
         ...action.payload,
@@ -53,6 +56,11 @@ export const setAuthUserData = (userId, email, login, isAuth) => ({
   payload: { userId, email, login, isAuth },
 });
 
+export const getCaptchaUrlSuccess = (captchaUrl) => ({
+  type: GET_CAPTCHA_URL_SUCCESS,
+  payload: { captchaUrl },
+});
+
 export const getAuthUserData = () => async (dispatch) => {
   dispatch(toggleIsFetching(true));
 
@@ -68,17 +76,28 @@ export const getAuthUserData = () => async (dispatch) => {
   }
 };
 
-export const login = (email, password, rememberMe, actions) => async (
+export const login = (email, password, rememberMe, captcha, actions) => async (
   dispatch
 ) => {
-  const data = await authAPI.login(email, password, rememberMe);
+  const data = await authAPI.login(email, password, rememberMe, captcha);
 
   if (data.resultCode === 0) {
+    // success, get auth user data
     dispatch(getAuthUserData());
   } else {
+    if (data.resultCode === 10) {
+      dispatch(getCaptchaUrl());
+    }
     const message = data.messages.length > 0 ? data.messages[0] : 'Some error';
     actions.setStatus(message);
   }
+};
+
+export const getCaptchaUrl = () => async (dispatch) => {
+  const data = await securityAPI.getCaptchaUrl();
+  const captchaUrl = data.url;
+
+  dispatch(getCaptchaUrlSuccess(captchaUrl));
 };
 
 export const logout = () => async (dispatch) => {
