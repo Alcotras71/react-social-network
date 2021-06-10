@@ -17,3 +17,14 @@
 .profileStatus {
   padding: 20px;
 }
+
+.aboutMe li {
+  margin: 5px 0;
+  color: rgb(252, 34, 34);
+  font-weight: 900;
+}
+
+.aboutMe span {
+  color: #fff;
+  font-weight: 700;
+}

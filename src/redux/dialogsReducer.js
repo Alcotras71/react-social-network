@@ -1,5 +1,5 @@
-const SEND_MESSAGE = 'SEND-MESSAGE',
-  DELETE_MESSAGE = 'DELETE-MESSAGE';
+const SEND_MESSAGE = 'network/dialogs/SEND-MESSAGE',
+  DELETE_MESSAGE = 'network/dialogs/DELETE-MESSAGE';
 
 const initialState = {
   dialogs: [

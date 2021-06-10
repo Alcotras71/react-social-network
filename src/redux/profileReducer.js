@@ -1,10 +1,10 @@
 import { profileAPI } from '../api/api';
 
-const ADD_POST = 'ADD-POST';
-const REMOVE_POST = 'REMOVE-POST';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS = 'SET_STATUS';
-const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS';
+const ADD_POST = 'network/profile/ADD-POST';
+const REMOVE_POST = 'network/profile/REMOVE-POST';
+const SET_USER_PROFILE = 'network/profile/SET_USER_PROFILE';
+const SET_STATUS = 'network/profile/SET_STATUS';
+const SAVE_PHOTO_SUCCESS = 'network/profile/SAVE_PHOTO_SUCCESS';
 
 let initialState = {
   posts: [
@@ -14,6 +14,7 @@ let initialState = {
     { id: 4, message: 'Yo , Claire', likeCount: '5' },
   ],
   profile: null,
+  isFetching: false,
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -26,6 +27,7 @@ const profileReducer = (state = initialState, action) => {
       };
 
     case SAVE_PHOTO_SUCCESS: {
+      debugger;
       return {
         ...state,
         profile: { ...state.profile, photos: action.photos },
@@ -88,9 +90,21 @@ export const getStatus = (userId) => async (dispatch) => {
 export const savePhoto = (file) => async (dispatch) => {
   const response = await profileAPI.savePhoto(file);
 
-  debugger
   if (response.resultCode === 0) {
     dispatch(savePhotoSuccess(response.data.photos));
+  }
+};
+
+export const saveProfile = (profile, actions) => async (dispatch, getState) => {
+  const userId = getState().auth.userId;
+  const data = await profileAPI.saveProfile(profile);
+
+  if (data.resultCode === 0) {
+    dispatch(getUserProfile(userId));
+  } else {
+    const message = data.messages.length > 0 ? data.messages[0] : 'Some error';
+    actions.setStatus(message);
+    return Promise.reject(message);
   }
 };
 
