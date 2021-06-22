@@ -15,7 +15,7 @@ const Main = () => {
   return (
     <main className={s.main}>
       <Switch>
-        <Route exact path="/" render={() => <Redirect to="/profile" />} />
+        <Redirect exact from="/" to="/profile" />
 
         <Route path="/profile/:userId?" render={() => <ProfileContainer />} />
 

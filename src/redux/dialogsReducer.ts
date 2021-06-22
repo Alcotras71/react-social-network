@@ -1,6 +1,16 @@
 const SEND_MESSAGE = 'network/dialogs/SEND-MESSAGE',
   DELETE_MESSAGE = 'network/dialogs/DELETE-MESSAGE';
 
+type DialogType = {
+  id: number;
+  name: string;
+};
+
+type MessagesType = {
+  id: number;
+  message: string;
+};
+
 const initialState = {
   dialogs: [
     { id: 1, name: 'Andrey' },
@@ -9,7 +19,7 @@ const initialState = {
     { id: 4, name: 'Rombol' },
     { id: 5, name: 'Kulik' },
     { id: 6, name: 'Sora' },
-  ],
+  ] as Array<DialogType>,
   messages: [
     { id: 1, message: 'Hello' },
     { id: 2, message: 'Hi' },
@@ -17,10 +27,15 @@ const initialState = {
     { id: 4, message: 'SO coool!' },
     { id: 5, message: 'clap, clap' },
     { id: 6, message: 'What is your web' },
-  ],
+  ] as Array<MessagesType>,
 };
 
-const dialogsReducer = (state = initialState, action) => {
+export type InitialStateType = typeof initialState;
+
+const dialogsReducer = (
+  state = initialState,
+  action: any
+): InitialStateType => {
   switch (action.type) {
     case SEND_MESSAGE:
       const messageText = action.messageText;
@@ -43,10 +58,20 @@ const dialogsReducer = (state = initialState, action) => {
   }
 };
 
-export const sendMessage = (messageText) => ({
+type SendMessageActionType = {
+  type: typeof SEND_MESSAGE;
+  messageText: string;
+};
+export const sendMessage = (messageText: string): SendMessageActionType => ({
   type: SEND_MESSAGE,
   messageText,
 });
-export const deleteMessage = () => ({ type: DELETE_MESSAGE });
+
+type DeleteMessageActionType = {
+  type: typeof DELETE_MESSAGE;
+};
+export const deleteMessage = (): DeleteMessageActionType => ({
+  type: DELETE_MESSAGE,
+});
 
 export default dialogsReducer;

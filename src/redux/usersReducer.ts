@@ -1,4 +1,5 @@
 import { followAPI, usersAPI } from '../api/api';
+import { UserType } from '../types/types';
 import { updateObjectInArray } from '../utils/helpers/object-helpers';
 
 const FOLLOW = 'network/users/FOLLOW';
@@ -11,15 +12,17 @@ const TOGGLE_IS_FOLLOWING_PROGRESS =
   'network/users/TOGGLE_IS_FOLLOWING_PROGRESS';
 
 const initialState = {
-  users: [],
+  users: [] as Array<UserType>,
   pageSize: 5,
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: false,
-  followingInProgress: [],
+  followingInProgress: [] as Array<number>, // array of users id
 };
 
-const usersReducer = (state = initialState, action) => {
+type InitialStateType = typeof initialState;
+
+const usersReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
     case FOLLOW:
       return {
@@ -72,28 +75,81 @@ const usersReducer = (state = initialState, action) => {
   }
 };
 
-export const followSuccess = (userId) => ({ type: FOLLOW, userId });
-export const unfollowSuccess = (userId) => ({ type: UNFOLLOW, userId });
-export const setUsers = (users) => ({ type: SET_USERS, users });
-export const setCurrentPage = (currPage) => ({
+type FollowSuccessActionType = {
+  type: typeof FOLLOW;
+  userId: number;
+};
+export const followSuccess = (userId: number): FollowSuccessActionType => ({
+  type: FOLLOW,
+  userId,
+});
+
+type UnfollowSuccessActionType = {
+  type: typeof UNFOLLOW;
+  userId: number;
+};
+export const unfollowSuccess = (userId: number): UnfollowSuccessActionType => ({
+  type: UNFOLLOW,
+  userId,
+});
+
+type SetUsersActionType = {
+  type: typeof SET_USERS;
+  users: Array<UserType>;
+};
+export const setUsers = (users: Array<UserType>): SetUsersActionType => ({
+  type: SET_USERS,
+  users,
+});
+
+type SetCurrentPageActionType = {
+  type: typeof SET_CURRENT_PAGE;
+  currPage: number;
+};
+export const setCurrentPage = (currPage: number): SetCurrentPageActionType => ({
   type: SET_CURRENT_PAGE,
   currPage,
 });
-export const setTotalUsersCount = (totalCount) => ({
+
+type SetTotalUsersCountActionType = {
+  type: typeof SET_TOTAL_USERS_COUNT;
+  totalCount: number;
+};
+export const setTotalUsersCount = (
+  totalCount: number
+): SetTotalUsersCountActionType => ({
   type: SET_TOTAL_USERS_COUNT,
   totalCount,
 });
-export const toggleIsFetching = (isFetching) => ({
+
+type ToggleIsFetchingActionType = {
+  type: typeof TOGGLE_IS_FETCHING;
+  isFetching: boolean;
+};
+export const toggleIsFetching = (
+  isFetching: boolean
+): ToggleIsFetchingActionType => ({
   type: TOGGLE_IS_FETCHING,
   isFetching,
 });
-export const toggleFollowingProgress = (isFetching, userId) => ({
+
+type ToggleFollowingProgressActionType = {
+  type: typeof TOGGLE_IS_FOLLOWING_PROGRESS;
+  isFetching: boolean;
+  userId: number;
+};
+export const toggleFollowingProgress = (
+  isFetching: boolean,
+  userId: number
+): ToggleFollowingProgressActionType => ({
   type: TOGGLE_IS_FOLLOWING_PROGRESS,
   isFetching,
   userId,
 });
 
-export const requestUsers = (page, pageSize) => async (dispatch) => {
+export const requestUsers = (page: number, pageSize: number) => async (
+  dispatch: any
+) => {
   dispatch(toggleIsFetching(true));
   dispatch(setCurrentPage(page));
 
@@ -104,10 +160,10 @@ export const requestUsers = (page, pageSize) => async (dispatch) => {
 };
 
 const followUnfollowFlow = async (
-  dispatch,
-  userId,
-  apiMethod,
-  actionCreator
+  dispatch: any,
+  userId: number,
+  apiMethod: any,
+  actionCreator: any
 ) => {
   dispatch(toggleFollowingProgress(true, userId));
 
@@ -118,7 +174,7 @@ const followUnfollowFlow = async (
   dispatch(toggleFollowingProgress(false, userId));
 };
 
-export const follow = (userId) => (dispatch) => {
+export const follow = (userId: number) => (dispatch: any) => {
   followUnfollowFlow(
     dispatch,
     userId,
@@ -127,7 +183,7 @@ export const follow = (userId) => (dispatch) => {
   );
 };
 
-export const unfollow = (userId) => async (dispatch) => {
+export const unfollow = (userId: number) => async (dispatch: any) => {
   followUnfollowFlow(
     dispatch,
     userId,
