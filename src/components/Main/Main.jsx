@@ -27,7 +27,7 @@ const Main = () => {
 
         <Route path="/settings" render={WithSuspense(Settings)} />
 
-        <Route path="/users" render={() => <UsersContainer />} />
+        <Route path="/users" render={() => <UsersContainer pageTitle="Человеки"/>} />
 
         <Route path="/login/facebook" render={() => <div>Facebook</div>} />
 

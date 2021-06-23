@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Formik } from 'formik';
 import { createField } from '../../common/FormsControls/FormsControls';
 import { defaultValidator } from '../../../utils/validators/validators';
-import connect from 'react-redux/lib/connect/connect';
+import { connect } from 'react-redux';
 import { login, logout } from '../../../redux/authReducer';
 import { Redirect } from 'react-router-dom';
 import s from '../../common/FormsControls/FormsControls.module.css';

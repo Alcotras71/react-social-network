@@ -1,4 +1,10 @@
-import { authAPI, profileAPI, securityAPI } from '../api/api';
+import {
+  authAPI,
+  profileAPI,
+  ResultCodeForCaptcha,
+  ResultCodesEnum,
+  securityAPI,
+} from '../api/api';
 
 const SET_USER_DATA = 'network/auth/SET_USER_DATA';
 const GET_CAPTCHA_URL_SUCCESS = 'network/auth/GET_CAPTCHA_URL_SUCCESS';
@@ -113,7 +119,7 @@ export const getAuthUserData = () => async (dispatch: any) => {
   const data = await authAPI.getAuthMe();
 
   dispatch(toggleIsFetching(false));
-  if (data.resultCode === 0) {
+  if (data.resultCode === ResultCodesEnum.Success) {
     const { id, login, email } = data.data;
     dispatch(setAuthUserData(id, email, login, true));
 
@@ -131,11 +137,11 @@ export const login = (
 ) => async (dispatch: any) => {
   const data = await authAPI.login(email, password, rememberMe, captcha);
 
-  if (data.resultCode === 0) {
+  if (data.resultCode === ResultCodesEnum.Success) {
     // success, get auth user data
     dispatch(getAuthUserData());
   } else {
-    if (data.resultCode === 10) {
+    if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
       dispatch(getCaptchaUrl());
     }
     const message = data.messages.length > 0 ? data.messages[0] : 'Some error';
@@ -153,7 +159,7 @@ export const getCaptchaUrl = () => async (dispatch: any) => {
 export const logout = () => async (dispatch: any) => {
   const data = await authAPI.logout();
 
-  if (data.resultCode === 0) {
+  if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(setAuthUserData(null, null, null, false));
   }
 };

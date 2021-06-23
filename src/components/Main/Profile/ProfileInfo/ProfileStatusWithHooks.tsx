@@ -1,7 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FC,
+  KeyboardEvent,
+  useEffect,
+  useState,
+} from 'react';
 import s from './ProfileInfo.module.css';
 
-const ProfileStatusWithHooks = (props) => {
+type PropsType = {
+  status: string;
+  updateStatus: (newStatus: string) => void;
+};
+
+const ProfileStatusWithHooks: FC<PropsType> = (props) => {
   const [editMode, setEditMode] = useState(false);
   const [status, setStatus] = useState(props.status);
 
@@ -18,11 +29,11 @@ const ProfileStatusWithHooks = (props) => {
     props.updateStatus(status);
   };
 
-  const onStatusChange = (e) => {
+  const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
     setStatus(e.currentTarget.value);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       deactivateEditMode();
     }
