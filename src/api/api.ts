@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ProfileType } from '../types/types';
+import { ProfileType, UserType } from '../types/types';
 
 const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -9,12 +9,24 @@ const instance = axios.create({
   },
 });
 
+type UsersAPIResponseType = {
+  totalCount: number;
+  error: string;
+  items: Array<UserType>;
+};
+
 export const usersAPI = {
   getUsers(currentPage = 1, pageSize = 10) {
     return instance
-      .get(`users?page=${currentPage}&count=${pageSize}`)
+      .get<UsersAPIResponseType>(`users?page=${currentPage}&count=${pageSize}`)
       .then((response) => response.data);
   },
+};
+
+type StandartPropType = {
+  data: Object;
+  resultCode: ResultCodesEnum;
+  messages: Array<string>;
 };
 
 export const profileAPI = {
@@ -25,12 +37,12 @@ export const profileAPI = {
   },
   getStatus(userId: number) {
     return instance
-      .get(`profile/status/${userId}`)
+      .get<any>(`profile/status/${userId}`)
       .then((response) => response.data);
   },
   updateStatus(status: string) {
     return instance
-      .put(`profile/status`, { status: status })
+      .put<StandartPropType>(`profile/status`, { status: status })
       .then((response) => response.data);
   },
   savePhoto(photoFile: any) {
@@ -38,7 +50,7 @@ export const profileAPI = {
     formData.append('image', photoFile);
 
     return instance
-      .put(`profile/photo`, formData, {
+      .put<any>(`profile/photo`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -46,14 +58,10 @@ export const profileAPI = {
       .then((response) => response.data);
   },
   saveProfile(profile: ProfileType) {
-    return instance.put('profile', profile).then((response) => response.data);
+    return instance
+      .put<StandartPropType>('profile', profile)
+      .then((response) => response.data);
   },
-};
-
-type FollowUnfollowRequestType = {
-  data: Object;
-  resultCode: ResultCodesEnum | ResultCodeForCaptcha;
-  messages: Array<string>;
 };
 
 export const followAPI = {
@@ -61,13 +69,13 @@ export const followAPI = {
 
   deleteFollow(userId: number) {
     return instance
-      .delete<FollowUnfollowRequestType>(`${this.follow}/${userId}`)
+      .delete<StandartPropType>(`${this.follow}/${userId}`)
       .then((response) => response.data);
   },
 
   postFollow(userId: number) {
     return instance
-      .post<FollowUnfollowRequestType>(`${this.follow}/${userId}`)
+      .post<StandartPropType>(`${this.follow}/${userId}`)
       .then((response) => response.data);
   },
 };

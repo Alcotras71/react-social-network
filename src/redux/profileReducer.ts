@@ -1,4 +1,4 @@
-import { profileAPI } from '../api/api';
+import { profileAPI, ResultCodesEnum } from '../api/api';
 import { PhotosType, PostType, ProfileType } from '../types/types';
 
 const ADD_POST = 'network/profile/ADD-POST';
@@ -82,7 +82,7 @@ export const removePost = (): RemovePostActionType => ({ type: REMOVE_POST });
 
 type SavePhotoSuccessActionType = {
   type: typeof SAVE_PHOTO_SUCCESS;
-  photos: PhotosType
+  photos: PhotosType;
 };
 export const savePhotoSuccess = (
   photos: PhotosType
@@ -124,7 +124,7 @@ export const getUserProfile = (userId: number) => async (dispatch: any) => {
 export const savePhoto = (file: any) => async (dispatch: any) => {
   const response = await profileAPI.savePhoto(file);
 
-  if (response.resultCode === 0) {
+  if (response.resultCode === ResultCodesEnum.Success) {
     dispatch(savePhotoSuccess(response.data.photos));
   }
 };
@@ -136,7 +136,7 @@ export const saveProfile = (profile: ProfileType, actions: any) => async (
   const userId = getState().auth.userId;
   const data = await profileAPI.saveProfile(profile);
 
-  if (data.resultCode === 0) {
+  if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(getUserProfile(userId));
   } else {
     const message = data.messages.length > 0 ? data.messages[0] : 'Some error';
@@ -148,7 +148,7 @@ export const saveProfile = (profile: ProfileType, actions: any) => async (
 export const updateStatus = (status: string) => async (dispatch: any) => {
   try {
     const data = await profileAPI.updateStatus(status);
-    if (data.resultCode === 0) {
+    if (data.resultCode === ResultCodesEnum.Success) {
       dispatch(setStatus(status));
     }
   } catch (error) {

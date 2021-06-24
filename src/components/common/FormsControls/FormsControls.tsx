@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { FC } from 'react';
 import s from './FormsControls.module.css';
-import { useField } from 'formik';
+import { FieldMetaProps, useField } from 'formik';
 
-const FormControl = ({ meta: { touched, error }, children }) => {
+type FormControlPropsType = {
+  meta: FieldMetaProps<{
+    touched: boolean;
+    error: string;
+  }>;
+  children: React.ReactChild;
+};
+
+const FormControl: FC<FormControlPropsType> = ({
+  meta: { touched, error },
+  children,
+}) => {
   const hasError = touched && error;
   return (
     <div className={`${s.formControl} ${hasError ? s.error : ''}`}>
@@ -12,7 +23,13 @@ const FormControl = ({ meta: { touched, error }, children }) => {
   );
 };
 
-export const Textarea = (props) => {
+type TextareaType = {
+  placeholder: string;
+  name: string;
+  validate: any;
+};
+
+export const Textarea: FC<TextareaType> = (props) => {
   const [field, meta] = useField(props);
   return (
     <FormControl {...props} meta={meta}>
@@ -21,7 +38,14 @@ export const Textarea = (props) => {
   );
 };
 
-export const Input = (props) => {
+type InputType = {
+  type: string;
+  placeholder: string;
+  name: string;
+  validate: any;
+};
+
+export const Input: FC<InputType> = (props) => {
   const [field, meta] = useField(props);
   return (
     <FormControl {...props} meta={meta}>
@@ -30,7 +54,15 @@ export const Input = (props) => {
   );
 };
 
-export const createField = ( tag, label, type, placeholder, name, validator, text = '' ) => {
+export function createField<FormKeysType extends string>(
+  tag: string,
+  label: boolean,
+  type: string,
+  placeholder: string,
+  name: FormKeysType,
+  validator: any,
+  text = ''
+) {
   if (tag === 'input') {
     return label ? (
       <label>
@@ -56,12 +88,8 @@ export const createField = ( tag, label, type, placeholder, name, validator, tex
   } else if ('textarea') {
     return (
       <div>
-        <Textarea
-          placeholder={placeholder}
-          name={name}
-          validate={validator}
-        />
+        <Textarea placeholder={placeholder} name={name} validate={validator} />
       </div>
     );
   }
-};
+}
